@@ -1,7 +1,5 @@
 
-
-const Role = require('../models/role');
-const Usuario = require('../models/usuario');
+const { Role, Categoria, Usuario, Producto } = require('../models');
 
 
 const esRolValido = async (rol = '') => {
@@ -28,8 +26,72 @@ const existeUsuarioPorId = async ( id ) => {
 }
 
 
+// validaciones de categoría
+const existeCategoria = async ( id ) => {
+
+    const existeCategoria = await Categoria.findById( id );
+    if ( !existeCategoria ) {
+        throw new Error(`La Categoria con el id: ${ id }, no está registrada`);
+    }
+
+}
+
+const existeNombreCategoria = async ( nombre ) => {
+    let  name  = nombre.toUpperCase();
+
+    if ( name.length === 0 ) {
+            throw new Error(`El nombre debe tener algún valor`);
+    }
+
+    const existeNombre = await Categoria.findOne({ nombre: name });
+
+    if ( existeNombre ) {
+        throw new Error(`La Categoria con el nombre: ${ nombre }, ya está registrada`);
+    }
+
+}
+
+
+// Validaciones de productos
+
+const existeNombreProducto = async ( nombre ) => {
+
+    if( nombre === "") {
+        throw new Error(`EL producto debe tener algún nombre válido`);
+    }
+
+    // Si el nombre no se envía entonces retornar un true
+    if ( !nombre ) {
+        return true;
+    }
+
+    // Si se envía se valida.
+  
+    let  name  = nombre.toUpperCase();
+
+    const existeNombre = await Producto.findOne({ nombre: name });
+
+    if ( existeNombre ) {
+        throw new Error(`EL producto con el nombre: ${ nombre }, ya está registrada`);
+    }
+}
+
+
+const existeProductoPorId = async ( id ) => {
+
+    const existeProducto = await Producto.findById( id )
+
+    if( !existeProducto ) {
+        throw new Error(`No existe producto con ese ID ${ id }`);
+    }
+}
+
 module.exports = {
     esRolValido,
     existeCorreo,
-    existeUsuarioPorId
+    existeUsuarioPorId,
+    existeCategoria,
+    existeNombreCategoria,
+    existeNombreProducto,
+    existeProductoPorId
 }

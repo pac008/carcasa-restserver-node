@@ -3,7 +3,6 @@ const { check } = require('express-validator');
 
 const { validarCampos,
         validarJWT,
-        esAdminRol,
         tieneRol  } = require('../middlewares');
 
 

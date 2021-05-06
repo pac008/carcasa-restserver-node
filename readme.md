@@ -10,3 +10,4 @@
 ``````````
 npm i 
 ``````````
+#### Recordar variables de entorno .env

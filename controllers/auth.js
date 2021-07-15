@@ -100,13 +100,27 @@ const googleSingIn = async ( req, res = response ) => {
             msg: 'El Token de Google no es válido'
         })
     }
-
-
-
 }
+
+const renovarToken = async ( req, res ) => {
+
+        const { usuarioAutenticado }  = req;
+          //Generar el JWT
+          const token = await generarJWT( usuarioAutenticado.id );
+          
+
+        res.json({
+            usuarioAutenticado,
+            token
+            
+        })
+    }
+
+
 
 
 module.exports = {
     login,
-    googleSingIn
+    googleSingIn,
+    renovarToken
 }
